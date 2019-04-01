@@ -1,0 +1,14 @@
+title: Material for Classes - UNAL
+description: Material for Classes. Universidad Nacional de Colombia, Bogotá D.C.
+baseurl: /class
+
+markdown: kramdown
+highlighter: rouge
+theme: minima
+plugins:
+  - jekyll-feed
+  
+collections:
+  courses:
+    output: true
+    permalink: /:path

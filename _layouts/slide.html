@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }}</title>
+
+    <link href='{{ "/assets/css/reveal.css" | relative_url }}' rel="stylesheet">
+	<link href='{{ "/assets/css/theme/white.css" | relative_url }}' rel="stylesheet">
+	<link href='{{ "/assets/css/syntax.css" | relative_url }}' rel="stylesheet">
+
+    <script src='{{ "/assets/js/head.min.js" | relative_url }}'></script>
+	<script src='{{ "/assets/js/reveal.js" | relative_url }}'></script>
+    <style>
+		.half-column {
+			float: left;
+			width: 48%;
+			margin: 5px !important;
+		}
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+		<section>
+		  <h2>{{ page.title }}</h2>
+		</section>
+	
+        <section data-markdown data-separator="@@@" data-separator-vertical="@@">
+            <script type="text/template">
+                {{ content }}
+            </script>
+        </section>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+		var cblocks = document.querySelectorAll("section[data-markdown]");				
+		if(cblocks.length) {
+			for(var i=0, len=cblocks.length; i<len; i++) {
+				var dom = cblocks[i];
+				var html = dom.innerHTML;
+				html = html.replace(/<span class="o">\*<\/span>/g, "<span class=\"o\">\\*<\/span>");
+				html = html.replace(/<span class="o">\*=<\/span>/g, "<span class=\"o\">\\*=<\/span>");
+				html = html.replace(/<span class="o">\*\*<\/span>/g, "<span class=\"o\">\\*\\*<\/span>");
+				dom.innerHTML = html;
+			}
+		}
+	
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+			slideNumber: true,
+			transition: "convex",
+			
+			math: {
+				mathjax: '{{ "/assets/js/MathJax.js" | relative_url }}',
+				config: 'TeX-AMS_HTML-full'
+			},
+
+			dependencies: [{
+				src: '{{ "/assets/js/marked.js" | relative_url }}', condition: function () {
+					return !!document.querySelector('[data-markdown]');
+				}
+			}, {
+				src: '{{ "/assets/js/markdown.js" | relative_url }}', condition: function () {
+					return !!document.querySelector('[data-markdown]');
+				}
+			}, {
+				src: '{{ "/assets/js/math.js" | relative_url }}', async: true
+			}]
+		});
+	
+	}, false);
+</script>
+</body>
+</html>
